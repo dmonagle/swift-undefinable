@@ -21,9 +21,9 @@ final class UndefinableTests: XCTestCase {
     }
 
     func testValue() throws {
-        let test = TestStruct(age: .defined(21))
+        let test = TestStruct(age: 21)
         XCTAssertNotEqual(test.age, .undefined)
-        XCTAssertEqual(test.age.optionalValue, 21)
+        XCTAssertEqual(test.age, 21)
     }
 
     struct TestStruct {

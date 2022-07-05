@@ -7,16 +7,16 @@
 
 import Foundation
 
-public enum Undefinable<Wrapped> : ExpressibleByNilLiteral {
+public enum Undefinable<Wrapped> {
     case undefined
     case defined(Wrapped?)
     
-    public init() {
-        self = .undefined
+    static var null: Self {
+        .defined(.none)
     }
     
-    public init(nilLiteral: ()) {
-        self = .defined(.none)
+    public init() {
+        self = .undefined
     }
     
     public init(_ defined: Wrapped) {
@@ -48,5 +48,40 @@ extension Undefinable : Equatable where Wrapped : Equatable {
         default:
             return false
         }
+    }
+}
+
+// MARK - Expressible by literals
+
+extension Undefinable : ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self = .defined(.none)
+    }
+}
+
+extension Undefinable : ExpressibleByIntegerLiteral where Wrapped == Int {
+    public init(integerLiteral value: IntegerLiteralType) {
+        self.init(value)
+    }
+}
+
+extension Undefinable : ExpressibleByBooleanLiteral where Wrapped == Bool {
+    public init(booleanLiteral value: BooleanLiteralType) {
+        self.init(value)
+    }
+}
+
+extension Undefinable : ExpressibleByFloatLiteral where Wrapped == Double {
+    public init(floatLiteral value: FloatLiteralType) {
+        self.init(value)
+    }
+}
+
+extension Undefinable : ExpressibleByExtendedGraphemeClusterLiteral, ExpressibleByStringLiteral, ExpressibleByUnicodeScalarLiteral where Wrapped == String {
+    public typealias UnicodeScalarLiteralType = Wrapped
+    public typealias ExtendedGraphemeClusterLiteralType = Wrapped
+    
+    public init(stringLiteral value: StringLiteralType) {
+        self.init(value)
     }
 }

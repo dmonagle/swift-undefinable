@@ -9,6 +9,7 @@ final class UndefinableDecodingTests: XCTestCase {
 
     func testNil() throws {
         let test = decoded(for: #"{"age":null}"#)
+        XCTAssertEqual(test.age, .null)
         XCTAssertTrue(test.age.isDefined)
         XCTAssertNil(test.age.optionalValue)
     }

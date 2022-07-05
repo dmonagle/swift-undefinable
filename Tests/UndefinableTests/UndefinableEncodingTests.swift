@@ -3,18 +3,18 @@ import XCTest
 
 final class UndefinableEncodingTests: XCTestCase {
     func testUndefined() throws {
-        let test = TestStruct()
+        let test = TestStruct(name: .undefined)
         XCTAssertEqual(encodedJsonString(for: test), #"{}"#)
     }
 
     func testNil() throws {
-        let test = TestStruct(age: nil)
-        XCTAssertEqual(encodedJsonString(for: test), #"{"age":null}"#)
+        let test = TestStruct(name: nil)
+        XCTAssertEqual(encodedJsonString(for: test), #"{"name":null}"#)
     }
 
     func testValue() throws {
-        let test = TestStruct(age: .defined(21))
-        XCTAssertEqual(encodedJsonString(for: test), #"{"age":21}"#)
+        let test = TestStruct(name: "David")
+        XCTAssertEqual(encodedJsonString(for: test), #"{"name":"David"}"#)
     }
     
     private func encodedJsonString(for test: TestStruct) -> String {
@@ -24,6 +24,6 @@ final class UndefinableEncodingTests: XCTestCase {
     }
 
     private struct TestStruct : Codable {
-        var age: Undefinable<Int> = .undefined
+        var name: Undefinable<String>
     }
 }
