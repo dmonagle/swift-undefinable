@@ -25,6 +25,22 @@ final class UndefinableTests: XCTestCase {
         XCTAssertNotEqual(test.age, .undefined)
         XCTAssertEqual(test.age, 21)
     }
+    
+    func testConditionalAssignment() throws {
+        let undefined = TestStruct(age: .undefined)
+        
+        var age: Int? = 18
+        age ?= undefined.age
+        XCTAssertEqual(age, 18)
+        
+        let twentyOne = TestStruct(age: 21)
+        age ?= twentyOne.age
+        XCTAssertEqual(age, 21)
+
+        let null = TestStruct(age: nil)
+        age ?= null.age
+        XCTAssertNil(age)
+    }
 
     struct TestStruct {
         var age: Undefinable<Int> = .undefined
